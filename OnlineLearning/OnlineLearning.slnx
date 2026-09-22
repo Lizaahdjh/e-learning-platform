@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="OnlineLearning.Api/OnlineLearning.Api.csproj" />
+  <Project Path="OnlineLearning.Application/OnlineLearning.Application.csproj" />
+  <Project Path="OnlineLearning.Domain/OnlineLearning.Domain.csproj" />
+  <Project Path="OnlineLearning.Infrastructure/OnlineLearning.Infrastructure.csproj" />
+  <Project Path="OnlineLearning.Shared/OnlineLearning.Shared.csproj" />
+</Solution>
