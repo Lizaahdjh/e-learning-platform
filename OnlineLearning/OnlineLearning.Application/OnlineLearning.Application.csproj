@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineLearning.Domain\OnlineLearning.Domain.csproj" />
-    <ProjectReference Include="..\OnlineLearning.Shared\OnlineLearning.Shared.csproj" />
   </ItemGroup>
 
 </Project>

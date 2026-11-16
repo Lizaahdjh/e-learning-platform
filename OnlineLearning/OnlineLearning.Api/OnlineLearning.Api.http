@@ -1,6 +1,35 @@
-@OnlineLearning.Api_HostAddress = http://localhost:5080
+@HostAddress = http://localhost:5080
 
-GET {{OnlineLearning.Api_HostAddress}}/weatherforecast/
+### Health check
+GET {{HostAddress}}/health
+Accept: text/plain
+
+### Отримати всі курси
+GET {{HostAddress}}/api/courses
 Accept: application/json
 
-###
+### Отримати курс за ID
+GET {{HostAddress}}/api/courses/1
+Accept: application/json
+
+### Створити новий курс
+POST {{HostAddress}}/api/courses
+Content-Type: application/json
+
+{
+  "title": "Entity Framework Core",
+  "description": "Advanced ORM",
+  "teacherId": 1
+}
+
+### Оновити курс
+PUT {{HostAddress}}/api/courses/1
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "description": "Updated description"
+}
+
+### Видалити курс
+DELETE {{HostAddress}}/api/courses/1

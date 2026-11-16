@@ -1,15 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OnlineLearning.Application\OnlineLearning.Application.csproj" />
-    <ProjectReference Include="..\OnlineLearning.Domain\OnlineLearning.Domain.csproj" />
-    <ProjectReference Include="..\OnlineLearning.Shared\OnlineLearning.Shared.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<!-- ORM провайдер для MySQL -->
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+
+		<!-- Явное указание безопасной версии драйвера (закрывает уязвимость) -->
+		<PackageReference Include="MySqlConnector" Version="2.6.2" />
+
+		<!-- Необходимо для работы миграций EF Core -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Infrastructure зависит только от Application (Clean Architecture) -->
+		<ProjectReference Include="..\OnlineLearning.Application\OnlineLearning.Application.csproj" />
+	</ItemGroup>
 
 </Project>

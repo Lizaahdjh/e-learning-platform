@@ -1,44 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineLearning.Domain.Entities;
+using OnlineLearning.Application.DTOs;
+using OnlineLearning.Application.Services;
 
 namespace OnlineLearning.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CoursesController : ControllerBase
+public sealed class CoursesController(ICourseService courseService) : ControllerBase
 {
-    private static readonly List<Course> _courses = new()
-    {
-        new Course { Id = 1, Title = "C# Basics",   Description = "Intro to C#", TeacherId = 1 },
-        new Course { Id = 2, Title = "ASP.NET Core", Description = "Web API",    TeacherId = 1 },
-    };
-
     [HttpGet]
-    public IEnumerable<Course> Get() => _courses;
+    public async Task<ActionResult<IReadOnlyList<CourseDto>>> GetAll()
+    {
+        var courses = await courseService.GetAllAsync();
+        return Ok(courses);
+    }
 
     [HttpGet("{id:int}")]
-    public ActionResult<Course> GetById(int id)
+    public async Task<ActionResult<CourseDto>> GetById(int id)
     {
-        var c = _courses.FirstOrDefault(x => x.Id == id);
-        return c is null ? NotFound() : c;
+        var course = await courseService.GetByIdAsync(id);
+        return course is null ? NotFound() : Ok(course);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<CourseDto>> Create([FromBody] CreateCourseRequest request)
+    {
+        var created = await courseService.CreateAsync(request);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, [FromBody] Course updated)
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateCourseRequest request)
     {
-        var c = _courses.FirstOrDefault(x => x.Id == id);
-        if (c is null) return NotFound();
-        c.Title = updated.Title;
-        c.Description = updated.Description;
-        return NoContent();
+        var success = await courseService.UpdateAsync(id, request);
+        return success ? NoContent() : NotFound();
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
-        var c = _courses.FirstOrDefault(x => x.Id == id);
-        if (c is null) return NotFound();
-        _courses.Remove(c);
-        return NoContent();
+        var success = await courseService.DeleteAsync(id);
+        return success ? NoContent() : NotFound();
     }
 }
